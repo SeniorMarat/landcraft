@@ -18,4 +18,4 @@ pnpm i
 pnpm dev
 ```
 
-Открыть сайт: <http://localhost:3000/fugu-app>
+Открыть сайт: <http://localhost:3000>
