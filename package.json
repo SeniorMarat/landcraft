@@ -1,17 +1,56 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "landcraft",
   "type": "module",
+  "private": true,
+  "packageManager": "pnpm@9.10.0",
+  "engines": {
+    "node": "22",
+    "pnpm": "9.10.0"
+  },
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "build": "nuxt build",
+    "start": "nuxt preview",
+    "lint": "eslint --fix .",
+    "prepare": "husky",
+    "test:types": "nuxt typecheck",
+    "db": "curl localhost:3040/api/db -d"
   },
   "dependencies": {
-    "nuxt": "^3.14.1592",
-    "vue": "latest",
-    "vue-router": "latest"
+    "@oruga-ui/oruga-next": "0.9.0-pre.1",
+    "@oruga-ui/theme-oruga": "^0.4.1",
+    "@vueuse/core": "^11.1.0",
+    "advisory-lock": "^2.0.0",
+    "concurrent-promise-queue": "^1.0.3",
+    "date-fns": "^3.6.0",
+    "graphile-worker": "^0.16.6",
+    "jose": "^5.6.3",
+    "modern-async": "^2.0.0",
+    "orchid-orm": "^1.35.0",
+    "ts-essentials": "^10.0.1",
+    "uuidv7": "^1.0.1",
+    "valibot": "^0.37.0",
+    "vue-valibot": "^3.0.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.25.0",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
+    "@pinia/nuxt": "^0.5.3",
+    "@townsquarelabs/ui-vue": "2.0.10-beta.0",
+    "@vue/language-plugin-pug": "^2.0.29",
+    "eslint-plugin-format": "^0.1.2",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-vue-pug": "^0.6.2",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.8",
+    "nuxt": "^3.12.4",
+    "pinia": "^2.2.1",
+    "pug": "^3.0.3",
+    "sass-embedded": "^1.77.8",
+    "stylelint": "^16.10.0",
+    "typescript": "^5.5.4",
+    "vite-plugin-vsharp": "^1.8.1",
+    "vue-tsc": "^2.0.29"
   }
 }
