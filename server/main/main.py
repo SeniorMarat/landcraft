@@ -16,7 +16,7 @@ class Controller:
     while True:
       jobs_to_create = self.db_manager.get_jobs(
         job_type=JobType.CREATE,
-        statuses=[JobStatus.NEW, JobStatus.DONE]
+        statuses=[JobStatus.NEW]
       )
 
       # TODO: ignored for now
@@ -49,11 +49,7 @@ class Controller:
         f"Processing job '{job.id}' with status '{job.status.value}'"
       )
 
-      # TODO: WHAT TO DO??
-      if job.status == JobStatus.NEW:
-        self.job_manager.process_job(job)
-      elif job.status == JobStatus.DONE:
-        self.job_manager.stop_job(job)
+      self.job_manager.process_job(job)
 
     except Exception as e:
       self.logger.error(f"Error processing job '{job.id}': {e}")

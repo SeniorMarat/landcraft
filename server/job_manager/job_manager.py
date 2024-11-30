@@ -8,8 +8,3 @@ class JobManager:
     # TODO: process job logic
     print("process job logic")
     raise NotImplementedError
-
-  def stop_job(self, job: Job) -> None:
-    # TODO: stop job logic
-    print("stop job logic")
-    raise NotImplementedError
