@@ -2,7 +2,7 @@ import { change } from "../rake"
 
 export default change(async (db) => {
   await db.createEnum("job_type", ["CREATE", "EDIT"])
-  await db.createEnum("job_status", ["NEW", "PROCESSING", "COMPLETED", "FAILED"])
+  await db.createEnum("job_status", ["NEW", "DONE"])
 
   await db.createTable("job", t => ({
     id: t.id(),

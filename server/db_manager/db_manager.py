@@ -1,11 +1,12 @@
 import json
 import os
+from typing import List, Optional, Any, Dict
+
 import psycopg2
 from uuid_extensions import uuid7str
 from datetime import datetime
 from job.job import Job, JobType, JobStatus
-
-DATABASE_URL = os.environ.get("NUXT_DATABASE_URL")
+from config import DB_CONFIG
 
 
 class DatabaseManager:
@@ -26,7 +27,7 @@ class DatabaseManager:
     def get_connector(self):
         """
         Get a connection to the PostgreSQL database. If no connection exists yet,
-        try to create a new one with the DATABASE_URL environment variable. If the
+        try to create a new one with the DB_CONFIG from config.py file. If the
         connection is closed for any reason, try to reopen it.
 
         Returns:
@@ -37,7 +38,7 @@ class DatabaseManager:
         """
         if self.conn is None or self.conn.closed:
             try:
-                self.conn = psycopg2.connect(DATABASE_URL)
+                self.conn = psycopg2.connect(**DB_CONFIG)
             except psycopg2.Error as e:
                 print(f"Error connecting to database: {e}")
                 raise Exception(f"Error in get_connector(): {e}")
@@ -60,7 +61,7 @@ class DatabaseManager:
     def get_jobs(
         self,
         job_type: JobType,
-        statuses: List[JobStatus] = [JobStatus.NEW, JobStatus.PROCESSING],
+        statuses: List[JobStatus] = [JobStatus.NEW, JobStatus.DONE],
     ) -> Optional[List[Job]]:
         """
         Get a list of jobs of the given type from the database.
@@ -83,41 +84,31 @@ class DatabaseManager:
                 statuses_str = ", ".join(f"'{status.value}'" for status in statuses)
                 cursor.execute(
                     f"""
-                    SELECT id, job_type, ticker, status, params, calculate_stake, prohibit_bearish
+                    SELECT id, job_type, job_status, args
                     FROM job
                     WHERE job_type = '{job_type}' AND status IN ({statuses_str})
                     ORDER BY created_at ASC;
                     """
                 )
-                raw_jobs: list[tuple[Any, ...]] = cursor.fetchall()
-                if raw_jobs:
+                jobs: list[tuple[Any, ...]] = cursor.fetchall()
+                if jobs:
                     jobs: List[Job] = []
-                    for raw_job in raw_jobs:
+                    for job in jobs:
                         (
                             job_id,
                             job_type,
-                            ticker_name,
                             status_name,
-                            parameters,
-                            calculate_stake,
-                            prohibit_bearish,
-                        ) = raw_job
+                            parameters
+                        ) = job
                         if not parameters:
                             parameters = {}
                         jobs.append(
                             Job(
                                 id=job_id,
                                 job_type=job_type,
-                                ticker=Ticker[ticker_name],
                                 status=JobStatus[status_name.upper()],
-                                params=parameters,
-                                calculate_stake=calculate_stake,
-                                prohibit_bearish=prohibit_bearish,
+                                params=parameters
                             )
-                        )
-                    for job in jobs:
-                        self.update_job_status(
-                            job_id=job.id, new_status=JobStatus.PROCESSING
                         )
                     return jobs
         except psycopg2.Error as e:

@@ -3,9 +3,7 @@ from enum import Enum
 
 class JobStatus(Enum):
     NEW = 1
-    PROCESSING = 2
-    COMPLETED = 3
-    FAILED = 4
+    DONE = 2
 
 
 class JobType(Enum):
@@ -15,10 +13,10 @@ class JobType(Enum):
 
 class Job:
     def __init__(self, id: str, type: JobType, args: str, status: JobStatus) -> None:
-        self._id = id
-        self._type = type
-        self._status = status
-        self._args = args
+      self._id = id
+      self._type = type
+      self._status = status
+      self._args = args
 
     @property
     def id(self) -> str:
