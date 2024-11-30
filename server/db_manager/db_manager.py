@@ -81,33 +81,31 @@ class DatabaseManager:
         conn = self.get_connector()
         try:
             with conn.cursor() as cursor:
-                statuses_str = ", ".join(f"'{status.value}'" for status in statuses)
+                statuses_str = ", ".join(f"'{status.name}'" for status in statuses)
                 cursor.execute(
                     f"""
                     SELECT id, job_type, job_status, args
                     FROM job
-                    WHERE job_type = '{job_type}' AND status IN ({statuses_str})
-                    ORDER BY created_at ASC;
+                    WHERE job_type = '{job_type.name}' AND job_status IN ({statuses_str})
+                    ORDER BY id ASC;
                     """
                 )
-                jobs: list[tuple[Any, ...]] = cursor.fetchall()
-                if jobs:
+                raw_jobs: list[tuple[Any, ...]] = cursor.fetchall()
+                if raw_jobs:
                     jobs: List[Job] = []
-                    for job in jobs:
+                    for raw_job in raw_jobs:
                         (
                             job_id,
                             job_type,
-                            status_name,
-                            parameters
-                        ) = job
-                        if not parameters:
-                            parameters = {}
+                            job_status,
+                            args
+                        ) = raw_job
                         jobs.append(
                             Job(
                                 id=job_id,
-                                job_type=job_type,
-                                status=JobStatus[status_name.upper()],
-                                params=parameters
+                                type=JobType[job_type.upper()],
+                                status=JobStatus[job_status.upper()],
+                                args=args
                             )
                         )
                     return jobs

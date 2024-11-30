@@ -50,21 +50,12 @@ class Controller:
       )
 
       # TODO: WHAT TO DO??
-      if job.status == JobStatus.BEGIN:
+      if job.status == JobStatus.NEW:
         self.job_manager.process_job(job)
-      elif job.status == JobStatus.FINISH:
+      elif job.status == JobStatus.DONE:
         self.job_manager.stop_job(job)
 
     except Exception as e:
-      # restart job if failed
-      if job.status == JobStatus.FAILED:
-        self.db_manager.update_job_status(
-          job_id=job.id, new_status=JobStatus.RETRY_FAILED
-        )
-      else:
-        self.db_manager.update_job_status(
-          job_id=job.id, new_status=JobStatus.FAILED
-        )
       self.logger.error(f"Error processing job '{job.id}': {e}")
 
 if __name__ == "__main__":

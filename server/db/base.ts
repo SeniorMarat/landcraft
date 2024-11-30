@@ -6,7 +6,7 @@ export const BaseTable = createBaseTable({
     ...t,
     id: () => t.uuid().default(uuidv7).primaryKey(),
     job_type: () => t.enum("job_type", ["CREATE", "EDIT"]),
-    job_status: () => t.enum("job_status", ["NEW", "COMPLETED"]),
+    job_status: () => t.enum("job_status", ["NEW", "DONE"]),
   }),
   snakeCase: true,
 })
