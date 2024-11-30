@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.10.0",
   "engines": {
-    "node": "22",
+    "node": "20",
     "pnpm": "9.10.0"
   },
   "scripts": {
@@ -34,10 +34,10 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.25.0",
+    "@inetss/vite-plugin-vue-css-module": "^2.1.0",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.3",
-    "@townsquarelabs/ui-vue": "2.0.10-beta.0",
     "@vue/language-plugin-pug": "^2.0.29",
     "eslint-plugin-format": "^0.1.2",
     "eslint-plugin-simple-import-sort": "^12.1.1",

@@ -1,3 +1,5 @@
+import vueCssModule from "@inetss/vite-plugin-vue-css-module"
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -15,9 +17,19 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    plugins: [
+      vueCssModule({ attrName: "mclass", pugClassLiterals: true }),
+    ],
+  },
+
   css: [
     "~/styles/index.scss",
   ],
+
+  piniaPersistedstate: {
+    storage: "localStorage",
+  },
 
   runtimeConfig: {
     // Token for accessing admin API
