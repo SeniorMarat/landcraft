@@ -1,0 +1,4 @@
+bs4==0.0.2
+psycopg2==2.9.9
+python-dotenv==1.0.1
+uuid7==0.1.0
